@@ -1,20 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import Home from './Screens/Home'
+import Month from './Screens/Month'
+import Year from './Screens/Year'
+import 'react-native-gesture-handler';
 
 export default function App() {
+
+  const Drawer = createDrawerNavigator()
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Drawer.Navigator
+        initialRouteName='Home'
+        drawerType="front"
+        screenOptions={{headerShown:false}}
+      >
+        <Drawer.Screen
+          name = "Home" component={Home}/>
+        <Drawer.Screen
+          name = "Month" component={Month}/>
+        <Drawer.Screen
+          name = "Year" component={Year}/>
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
