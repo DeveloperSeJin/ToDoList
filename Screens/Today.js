@@ -8,9 +8,8 @@ import importanceImg from '../assets/Importance.png'
 import unimportanceImg from '../assets/Unimportance.png'
 
 import {
-    addDoc, collection, getDocs,
-     doc, setDoc, updateDoc, where, query, deleteDoc} from "firebase/firestore";
-import { id } from 'date-fns/locale';
+    collection, getDocs,
+    doc, setDoc, updateDoc, where, deleteDoc} from "firebase/firestore";
 
 const Today = (props) => {
     const {params} = props.route
@@ -95,18 +94,6 @@ const Today = (props) => {
         }
     }
 
-    const onPressTime = () => { // 시간 클릭 시
-        setVisible(true); // 모달 open
-    };
-    const onConfirm = (selectedTime) => { // 날짜 또는 시간 선택 시
-        setVisible(false); // 모달 close
-        setTime(selectedTime); // 선택한 날짜 변경
-    };
-
-    const onCancel = () => { // 취소 시
-        setVisible(false); // 모달 close
-    };
-
     const onDelete = async (position) => {
         const newArray = plan.filter((num) => {
             return position != num.id;
@@ -120,6 +107,18 @@ const Today = (props) => {
         }
     }
 
+    const onPressTime = () => { // 시간 클릭 시
+        setVisible(true); // 모달 open
+    };
+    const onConfirm = (selectedTime) => { // 날짜 또는 시간 선택 시
+        setVisible(false); // 모달 close
+        setTime(selectedTime); // 선택한 날짜 변경
+    };
+
+    const onCancel = () => { // 취소 시
+        setVisible(false); // 모달 close
+    };
+
     const changeplan = (position) => {
         let itemList = []
         plan?.map(async (num) => {
@@ -132,7 +131,8 @@ const Today = (props) => {
                             time : num.time,
                             done : 'done',
                             importance : num.importance,
-                            contents : num.contents
+                            contents : num.contents,
+                            date:compareSelectedDate
                         })
                         await updateDoc(docRef, {
                             done : 'done'
@@ -143,7 +143,8 @@ const Today = (props) => {
                             time : num.time,
                             done : 'yet',
                             importance : num.importance,
-                            contents : num.contents
+                            contents : num.contents,
+                            date:compareSelectedDate
                         })
                         await updateDoc(docRef, {
                             done : 'yet'
@@ -216,7 +217,7 @@ const Today = (props) => {
                     style = {{flexDirection:'row', marginTop:'5%'}}
                 >
                     <TextInput
-                        style = {{marginLeft:'5%',height:'130%', width:'70%',marginRight:'10%',backgroundColor:'pink'}}
+                        style = {{marginLeft:'5%',height:'130%', width:'70%',marginRight:'10%'}}
                         value = {content}
                         onChangeText = {onChangeInput}
                     />
